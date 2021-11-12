@@ -1,0 +1,18 @@
+SQL
+
+1.
+select name, count(pit.id) as count
+from Pass_in_trip pit inner join passenger p
+on pit.passenger = p.id
+group by passenger
+having count(pit.id) >= 1
+order by count(id) desc, name;
+
+2.
+
+
+3.
+
+4.
+
+5.
