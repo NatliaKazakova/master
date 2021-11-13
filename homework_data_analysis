@@ -12,7 +12,23 @@ order by count(id) desc, name;
 select TIMEDIFF ( (select end_pair from Timepair where id = 4), (select start_pair from Timepair where id = 2) ) as time;
 
 3.
+select distinct ro.* from rooms ro
+inner join reservations re
+on ro.id = re.room_id
+where week(start_date, 1) = 12 and year(start_date)=2020;
 
 4.
+select classroom from schedule
+group by classroom
+having count(classroom) = 
+(select count(classroom) from schedule 
+group by classroom
+order by count(classroom) desc 
+limit 1)
 
 5.
+
+
+6.
+
+
