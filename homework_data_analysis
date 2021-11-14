@@ -37,5 +37,22 @@ where dt1 <> dt2 and date > dt1 and date <= dt2
 group by dt1,dt2
 
 6.
+with t as (select 
+NTILE(2) OVER(ORDER BY date, name) gr,
+row_number() over(ORDER BY date, name) rn_1,
+name name_1,
+date date_1
+from battles),
+
+t2 as(
+select gr, rn_1, name_1, date_1, 
+LEAD(rn_1,3,0) OVER(ORDER BY rn_1) rn_2,
+LEAD(name_1,3,0) OVER(ORDER BY rn_1)name_2,
+LEAD(date_1,3,0) OVER(ORDER BY rn_1)date_2
+from t)
+
+select rn_1, name_1, date_1, rn_2, name_2, date_2 
+from t2
+where gr in (select top 1(gr) from t2)
 
 
