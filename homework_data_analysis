@@ -27,7 +27,14 @@ order by count(classroom) desc
 limit 1)
 
 5.
-
+with a as 
+(select date dt1, LEAD(date) OVER(order by date) dt2
+from Income_o)
+select sum(out), dt1, dt2
+from a
+cross apply Outcome_o o
+where dt1 <> dt2 and date > dt1 and date <= dt2
+group by dt1,dt2
 
 6.
 
