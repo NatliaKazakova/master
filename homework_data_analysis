@@ -9,13 +9,13 @@ having count(pit.id) >= 1
 order by count(id) desc, name;
 
 2.
-select TIMEDIFF ( (select end_pair from Timepair where id = 4), (select start_pair from Timepair where id = 2) ) as time;
+select TIMEDIFF ( (select end_pair from Timepair where id = 4), (select start_pair from Timepair where id = 2) ) as time; -- функция timediff позволяет найти разницу между датами
 
 3.
 select distinct ro.* from rooms ro
 inner join reservations re
 on ro.id = re.room_id
-where week(start_date, 1) = 12 and year(start_date)=2020;
+where week(start_date, 1) = 12 and year(start_date)=2020; -- с помощью параметра в функции week меняем начало недели на понедельник
 
 4.
 select classroom from schedule
@@ -24,7 +24,7 @@ having count(classroom) =
 (select count(classroom) from schedule 
 group by classroom
 order by count(classroom) desc 
-limit 1)
+limit 1) -- находим количество посещений и берем одно максимальное. Это позволяет нам отобрать несколько классов, подходящих под условие
 
 5.
 with a as 
@@ -32,7 +32,7 @@ with a as
 from Income_o)
 select sum(out), dt1, dt2
 from a
-cross apply Outcome_o o
+cross apply Outcome_o o -- декартово произведение позволяет соединить каждую строку dt1 с каждой смещенной на одну строку вперед dt2 и наложить условие отбора на все возможные комбинации
 where dt1 <> dt2 and date > dt1 and date <= dt2
 group by dt1,dt2
 
